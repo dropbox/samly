@@ -1,10 +1,9 @@
 defmodule Samly.Mixfile do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "1.0.1-dev"
   @description "SAML Single-Sign-On Authentication for Plug/Phoenix Applications"
-  @source_url "https://github.com/handnot2/samly"
-  @blog_url "https://handnot2.github.io/blog/auth/saml-auth-for-phoenix"
+  @source_url "https://github.com/dropbox/samly"
 
   def project() do
     [
@@ -31,9 +30,8 @@ defmodule Samly.Mixfile do
     [
       {:plug, "~> 1.6"},
       {:esaml, "~> 4.2"},
-      {:sweet_xml, "~> 0.6.6"},
-      {:ex_doc, "~> 0.19.0", only: :dev, runtime: false},
-      {:inch_ex, "~> 1.0", only: [:dev, :test]}
+      {:sweet_xml, "~> 0.6"},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
 
@@ -51,10 +49,7 @@ defmodule Samly.Mixfile do
       maintainers: ["handnot2"],
       files: ["config", "lib", "LICENSE", "mix.exs", "README.md"],
       licenses: ["MIT"],
-      links: %{
-        "GitHub" => @source_url,
-        "Blog" => @blog_url
-      }
+      links: %{"GitHub" => @source_url}
     ]
   end
 end

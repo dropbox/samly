@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### v1.0.1
++   Removed Inch CI
++   Updated dependencies for project
++   Removed strict required dependency on `sweet_xml`
++   Updated license copyright
+
 ### v1.0.0
 
 +   `target_url` query parameter for the sign-in/sign-out requests must be

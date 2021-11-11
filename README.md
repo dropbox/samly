@@ -12,12 +12,7 @@ This has been used in the wild with the following Identity Providers:
 + Shibboleth
 + SimpleSAMLphp
 
-Please send a note by DM if you have successfully used `Samly` with other Identity Providers.
-
-[![Inline docs](http://inch-ci.org/github/handnot2/samly.svg)](http://inch-ci.org/github/handnot2/samly)
-
-This library uses Erlang [`esaml`](https://github.com/handnot2/esaml) to provide
-plug enabled routes.
+This library uses Erlang [`esaml`](https://github.com/dropbox/esaml) to provide plug enabled routes.
 
 ## Setup
 
@@ -31,7 +26,7 @@ plug enabled routes.
 defp deps() do
   [
     # ...
-    {:samly, "~> 1.0.0"},
+    {:samly, "~> 1.0"},
   ]
 end
 ```
@@ -45,7 +40,7 @@ Add `Samly.Provider` to your application supervision tree.
 
 children = [
   # ...
-  {Samly.Provider, []},
+  {Samly.Provider, []}
 ]
 ```
 
@@ -74,7 +69,7 @@ available to the Identity Provider so it can verify the SAML signed requests.
 You can create a self-signed certificate for this purpose. You can use `phx.gen.cert`
 mix task that is available as part of Phoenix 1.4 or use `openssl` directly to generate
 the key and corresponding certificate.
-(Check out [`samly_howto`](https://github.com/handnot2/samly_howto) `README.md` for this.)
+(Check out [`samly_howto`](https://github.com/dropbox/samly_howto) `README.md` for this.)
 
 ## Identity Provider Metadata
 
@@ -147,7 +142,7 @@ in this model look different.
 | SAML Assertion Consumer Service | `https://ngo.do-good.org/sso/sp/consume` |
 | SAML SingleLogout Service | `https://ngo.do-good.org/sso/sp/logout` |
 
-> Take a look at [`samly_howto`](https://github.com/handnot2/samly_howto) - a reference/demo
+> Take a look at [`samly_howto`](https://github.com/dropbox/samly_howto) - a reference/demo
 > application on how to use this library.
 >
 > Make sure to use HTTPS URLs in production deployments.
@@ -358,7 +353,7 @@ Take a look at the implementation of `Samly.State.ETS` or `Samly.State.Session` 
 ## Security Related
 
 +   `Samly` initiated sign-in/sign-out requests send `RelayState` to IdP and expect to get that back. Mismatched or missing `RelayState` in IdP responses to SP initiated requests will fail (with HTTP `403 access_denied`).
-+   Besides the `RelayState`, the request and response `idp_id`s must match. Reponse is rejected if they don't.
++   Besides the `RelayState`, the request and response `idp_id`s must match. Response is rejected if they don't.
 +   `Samly` makes the original request ID that an auth response corresponds to
 in `Samly.Subject.in_response_to` field. It is the responsibility of the consuming application to use this information along with the validity period in the assertion to check for **replay attacks**. The consuming application should use the `pre_session_create_pipeline` to perform this check. You may need a database or a distributed cache such as memcache in a clustered setup to keep track of these request IDs for their validity period to perform this check. Be aware that `in_response_to` field is **not** set when IDP initialized authorization flow is used.
 +   OOTB SAML requests and responses are signed.
@@ -372,7 +367,7 @@ in `Samly.Subject.in_response_to` field. It is the responsibility of the consumi
     not configured to sign, you will have to explicitly turn them off in the configuration.
     It is highly recommended to turn signing on in production deployments.
 +   Encypted Assertions are supported in `Samly`. There are no explicit config settings for this. Decryption happens automatically when encrypted assertions are detected in the SAML response.
-    > [Supported Encryption algorithms](https://github.com/handnot2/esaml#assertion-encryption)
+    > [Supported Encryption algorithms](https://github.com/dropbox/esaml#assertion-encryption)
 +   Make sure to use HTTPS URLs in production deployments.
 
 ## FAQ
@@ -380,15 +375,15 @@ in `Samly.Subject.in_response_to` field. It is the responsibility of the consumi
 #### How to setup a SAML 2.0 IdP for development purposes?
 
 Docker based setup of [`SimpleSAMLPhp`](https://simplesamlphp.org) is made available
-at [`samly_simplesaml`](https://github.com/handnot2/samly_simplesaml) Git Repo.
+at [`samly_simplesaml`](https://github.com/dropbox/samly_simplesaml) Git Repo.
 Check out the `README.md` file of this repo.
 
 There is also a Docker based setup of [`Shibboleth`](https://www.shibboleth.net/).
-Checkout the corresponding `README.md` file in [`samly_shibboleth`](https://github.com/handnot2/samly_shibboleth) Git Repo.
+Checkout the corresponding `README.md` file in [`samly_shibboleth`](https://github.com/dropbox/samly_shibboleth) Git Repo.
 
 #### Any sample Phoenix application that shows how to use Samly?
 
-Clone the [`samly_howto`](https://github.com/handnot2/samly_howto) Git Repo.
+Clone the [`samly_howto`](https://github.com/dropbox/samly_howto) Git Repo.
 Detailed instructions on how to setup and run this application are available
 in the `README.md` file in this repo.
 
