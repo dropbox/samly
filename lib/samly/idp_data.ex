@@ -128,18 +128,14 @@ defmodule Samly.IdpData do
     else
       {:reading, {:error, reason}} ->
         Logger.error(
-          "[Samly] Failed to read metadata_file [#{inspect(idp_data.metadata_file)}]: #{
-            inspect(reason)
-          }"
+          "[Samly] Failed to read metadata_file [#{inspect(idp_data.metadata_file)}]: #{inspect(reason)}"
         )
 
         idp_data
 
       {:parsing, {:error, reason}} ->
         Logger.error(
-          "[Samly] Invalid metadata_file content [#{inspect(idp_data.metadata_file)}]: #{
-            inspect(reason)
-          }"
+          "[Samly] Invalid metadata_file content [#{inspect(idp_data.metadata_file)}]: #{inspect(reason)}"
         )
 
         idp_data
@@ -233,9 +229,7 @@ defmodule Samly.IdpData do
 
         invalid_nameid_format ->
           Logger.error(
-            "[Samly] invalid nameid_format [#{inspect(idp_data.metadata_file)}]: #{
-              inspect(invalid_nameid_format)
-            }"
+            "[Samly] invalid nameid_format [#{inspect(idp_data.metadata_file)}]: #{inspect(invalid_nameid_format)}"
           )
 
           idp_data.nameid_format
