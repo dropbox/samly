@@ -29,7 +29,7 @@ defmodule Samly.Mixfile do
   defp deps() do
     [
       {:plug, "~> 1.6"},
-      {:esaml, "~> 4.2"},
+      {:esaml, github: "dropbox/esaml", branch: "updates"},
       {:sweet_xml, "~> 0.6"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
@@ -46,7 +46,7 @@ defmodule Samly.Mixfile do
 
   defp package() do
     [
-      maintainers: ["handnot2"],
+      maintainers: ["dropbox", "quasarken"],
       files: ["config", "lib", "LICENSE", "mix.exs", "README.md"],
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
