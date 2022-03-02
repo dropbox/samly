@@ -30,7 +30,7 @@ defmodule Samly.Mixfile do
     [
       {:plug, "~> 1.6"},
       {:esaml, "~> 4.3"},
-      {:sweet_xml, "~> 0.6"},
+      {:sweet_xml, ">= 0.0.0"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
