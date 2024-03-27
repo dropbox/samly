@@ -61,8 +61,8 @@ defmodule Samly.IdpData do
           slo_post_url: url(),
           nameid_format: nameid_format(),
           fingerprints: [binary()],
-          esaml_idp_rec: :esaml_idp_metadata,
-          esaml_sp_rec: :esaml_sp,
+          esaml_idp_rec: :esaml.idp_metadata(),
+          esaml_sp_rec: :esaml.sp(),
           valid?: boolean()
         }
 
