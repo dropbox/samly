@@ -25,7 +25,8 @@ defmodule Samly.State do
     store_provider.delete_assertion(conn, assertion_key, opts)
   end
 
-  def gen_id() do
+  @spec gen_id :: String.t()
+  def gen_id do
     24 |> :crypto.strong_rand_bytes() |> Base.url_encode64()
   end
 end
