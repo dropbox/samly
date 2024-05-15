@@ -67,7 +67,7 @@ defmodule Samly.AuthHandler do
         conn |> redirect(302, target_url)
 
       _ ->
-        relay_state = State.gen_id()
+        relay_state = State.create_relay_state(conn)
 
         {idp_signin_url, req_xml_frag} =
           Helper.gen_idp_signin_req(sp, idp_rec, Map.get(idp, :nameid_format))
@@ -109,7 +109,7 @@ defmodule Samly.AuthHandler do
           Helper.gen_idp_signout_req(sp, idp_rec, subject_rec, session_index)
 
         conn = State.delete_assertion(conn, assertion_key)
-        relay_state = State.gen_id()
+        relay_state = State.create_relay_state(conn)
 
         conn
         |> put_session("target_url", target_url)
