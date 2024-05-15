@@ -28,6 +28,20 @@ defmodule Samly.State do
     store_provider.delete_assertion(conn, assertion_key, opts)
   end
 
+  @spec create_relay_state(Plug.Conn.t()) :: String.t()
+  def create_relay_state(conn) do
+    case Application.get_env(:samly, @state_store).relay_state do
+      relay_state when is_function(relay_state, 1) ->
+        relay_state.(conn)
+
+      relay_state when is_binary(relay_state) ->
+        relay_state
+
+      relay_state ->
+        raise "Invalid relay_state: expected a function of arity 1 or a string, got #{inspect(relay_state)}"
+    end
+  end
+
   @spec gen_id(Plug.Conn.t()) :: String.t()
   def gen_id(_conn) do
     gen_id()
