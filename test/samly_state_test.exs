@@ -2,6 +2,29 @@ defmodule Samly.StateTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
+  test "create_relay_state" do
+    conn = conn(:get, "/relay-state-path")
+
+    default_relay_state_length = Samly.State.gen_id() |> String.length()
+    assert Samly.State.init(Samly.State.ETS, [], &Samly.State.gen_id/1) == :ok
+    assert Samly.State.create_relay_state(conn) |> String.length() == default_relay_state_length
+
+    assert Samly.State.init(Samly.State.ETS, [], "relay_state_string") == :ok
+    assert Samly.State.create_relay_state(conn) == "relay_state_string"
+
+    relay_state_fun = fn conn -> "#{conn.scheme}://#{conn.host}#{conn.request_path}" end
+    assert Samly.State.init(Samly.State.ETS, [], relay_state_fun) == :ok
+    assert Samly.State.create_relay_state(conn) == relay_state_fun.(conn)
+
+    for relay_state_param <- [1, fn -> "0arity" end, fn _, _ -> "2arity" end] do
+      assert Samly.State.init(Samly.State.ETS, [], relay_state_param) == :ok
+
+      assert_raise RuntimeError, ~r/^Invalid relay_state/, fn ->
+        Samly.State.create_relay_state(conn)
+      end
+    end
+  end
+
   describe "With Session Cache" do
     setup do
       opts =

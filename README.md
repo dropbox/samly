@@ -255,6 +255,25 @@ config :samly, Samly.State,
 |:------------|:-----------|
 | `opts` | _(optional)_ The `:key` is the name of the session key where assertion is stored. Default is `:samly_assertion`. |
 
+#### Relay State customization
+
+By default, Samly sets the relay state to a random string.
+However, you can set any specific value to the relay state.
+
+Set a fixed string as the relay state using the following:
+```elixir
+config :samly, Samly.State,
+  relay_state: "any-specific-string"
+```
+
+Set the relay state to the result of an annonymous function using the follows:
+```elixir
+config :samly, Samly.State,
+  relay_state: fn conn ->
+    "#{conn.scheme}://#{conn.host}#{conn.request_path}"
+   end
+```
+
 ## SAML Assertion
 
 Once authentication is completed successfully, IdP sends a "consume" SAML

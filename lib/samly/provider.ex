@@ -34,7 +34,8 @@ defmodule Samly.Provider do
     store_env = Application.get_env(:samly, Samly.State, [])
     store_provider = store_env[:store] || Samly.State.ETS
     store_opts = store_env[:opts] || []
-    State.init(store_provider, store_opts)
+    relay_state = store_env[:relay_state] || (&Samly.State.gen_id/1)
+    State.init(store_provider, store_opts, relay_state)
 
     opts = Application.get_env(:samly, Samly.Provider, [])
 
